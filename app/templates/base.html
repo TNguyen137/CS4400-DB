@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>{% block title %}{% endblock %}</title>
+  <meta charset="utf-8">
+
+  {% block meta %}
+    <meta name="description" content="">
+    <meta name="author" content="">
+  {% endblock %}
+
+  {% assets "common_css" %}
+    <link rel="stylesheet" type="text/css" href="{{ ASSET_URL }}">
+  {% endassets %}
+
+  {% block css %}
+  {% endblock %}
+
+</head>
+<body>
+
+  <nav class="navbar navbar-default">
+    <div class="container-fluid">
+      <ul class="nav navbar-nav navbar-left">
+        {% block navbar_items %}
+          <li><a class="" href="{{ url_for('main.home') }}">Home</a></li>
+          {% if current_user.is_authenticated and not current_user.is_admin %}
+            <li><a href="{{ url_for('main.view_applications') }}">My Applications</a></li>
+          {% endif %}
+          {% if current_user.is_authenticated and current_user.is_admin %}
+            <li><a href="{{ url_for('admin.home') }}">Admin</a></li>
+          {% endif %}
+        {% endblock navbar_items %}
+      </ul>
+      <div class="nav navbar-nav navbar-right"> 
+        {% if not current_user.is_authenticated %}
+          <a class="btn btn-default navbar-btn" href="{{ url_for('main.login') }}">Login</a>
+        {% else %}
+          <p class="navbar-text">Hello
+            <a class="navbar-link" href="{{ url_for('main.edit_user') }}">{{ current_user.username }}</a>!
+            <a class="navbar-link" href="{{ url_for('main.logout') }}">Logout</a>
+          </p>
+        {% endif %}
+      </div>
+    </div>
+  </nav>
+
+  <div class="container">
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        {% for category, message in messages %}
+          <div class="alert alert-{{ category }} alert-dismissible" role="alert">
+            <button type="button" class="close" data-dismiss="alert"><span>&times;</span></button>
+            {{ message }}
+          </div>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+
+    {% block body %}
+    {% endblock %}
+  </div>
+
+  {% assets "common_js" %}
+    <script type="text/javascript" src="{{ ASSET_URL }}"></script>
+  {% endassets %}
+  {% block js %}
+  {% endblock %}
+</body>
+</html>

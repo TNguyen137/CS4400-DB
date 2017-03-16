@@ -1,0 +1,15 @@
+{
+  "name": "cs4400-project",
+  "homepage": "https://github.com/BunsenMcDubbs/cs4400-project",
+  "authors": [
+    "Andrew Dai <theman@andrewdai.co>"
+  ],
+  "description": "",
+  "main": "",
+  "license": "MIT",
+  "private": true,
+  "dependencies": {
+    "bootstrap": "^3.3.7",
+    "bootstrap-select": "^1.12.1"
+  }
+}
